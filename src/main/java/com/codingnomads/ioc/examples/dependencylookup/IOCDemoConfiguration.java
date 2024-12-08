@@ -18,4 +18,9 @@ public class IOCDemoConfiguration {
         renderer.setGreetingProvider(provider());
         return renderer;
     }
+
+    @Bean
+    public GreetingProvider alternativeProvider() {
+        return new AlternativeGreetingProvider();
+    }
 }
