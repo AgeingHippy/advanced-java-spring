@@ -11,6 +11,7 @@ public class Laptop {
     private OS os;
     private Monitor monitor;
     private GPU gpu;
+    @Autowired SoundCard soundCardPro;
 
     // these fields are being injected from the ApplicationContext
     // if a class contains only one constructor (as this one does), the use of @Autowired is optional
@@ -31,6 +32,7 @@ public class Laptop {
                 " core " + processor.getName() +
                 "\nOS: " + os.getName() +
                 "\nmonitor: " + monitor.getName() +
-                "\ngpu: " + gpu.getName();
+                "\ngpu: " + gpu.getName() +
+                "\nsound card: " + soundCardPro.getName();
     }
 }

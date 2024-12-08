@@ -24,7 +24,18 @@ public class LaptopConfiguration {
         return new Monitor("Liyama");
     }
 
-    @Bean GPU gpu() {
+    @Bean
+    public GPU gpu() {
         return new GPU("GeForce GT 730");
+    }
+
+    @Bean
+    public SoundCard soundCardGeneric() {
+        return new SoundCard("Generic 123");
+    }
+
+    @Bean
+    public SoundCard soundCardPro() {
+        return new SoundCard("Professional 567");
     }
 }
