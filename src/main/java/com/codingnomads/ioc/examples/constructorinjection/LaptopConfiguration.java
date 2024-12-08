@@ -23,4 +23,8 @@ public class LaptopConfiguration {
     public Monitor monitor() {
         return new Monitor("Liyama");
     }
+
+    @Bean GPU gpu() {
+        return new GPU("GeForce GT 730");
+    }
 }
