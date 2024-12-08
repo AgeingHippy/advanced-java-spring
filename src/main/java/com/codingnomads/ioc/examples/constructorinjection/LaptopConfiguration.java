@@ -18,4 +18,9 @@ public class LaptopConfiguration {
     public OS os() {
         return new OS("ubuntu");
     }
+
+    @Bean
+    public Monitor monitor() {
+        return new Monitor("Liyama");
+    }
 }
