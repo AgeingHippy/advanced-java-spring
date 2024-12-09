@@ -18,5 +18,9 @@
         <property name="name" value="OpenJDK"/>
         <property name="version" value="17"/>
     </bean>
+    <bean id="alm" class="com.codingnomads.corespring.examples.application_context.xml.ALM">
+        <property name="name" value="Jira"/>
+        <property name="version" value="10.2.04"/>
+    </bean>
 
 </beans>
