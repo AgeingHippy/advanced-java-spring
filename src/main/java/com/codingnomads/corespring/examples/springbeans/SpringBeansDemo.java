@@ -14,6 +14,7 @@ public class SpringBeansDemo {
         SpringDeveloper springDeveloper = ctx.getBean(SpringDeveloper.class);
         System.out.println(
                 "Spring Developer Address: " + springDeveloper.getAddress().getStreetNumber() + " "
-                        + springDeveloper.getAddress().getStreet());
+                        + springDeveloper.getAddress().getStreet() +
+                        "\nPreferred machine is : " + springDeveloper.getMachine().getName());
     }
 }
