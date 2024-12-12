@@ -11,6 +11,9 @@ public class BeanAnnotationDemo {
         ctx.register(BeanAnnotationConfig.class);
         ctx.refresh();
         SampleBean sampleBean = ctx.getBean("friendly_bean_name", SampleBean.class);
+        SampleBean sampleBean2 = ctx.getBean("mySecondBean", SampleBean.class);
+        System.out.println(sampleBean.hashCode());
+        System.out.println(sampleBean2.hashCode());
         ctx.close();
     }
 }
