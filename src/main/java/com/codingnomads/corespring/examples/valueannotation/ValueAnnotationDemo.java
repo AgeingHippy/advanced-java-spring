@@ -20,8 +20,7 @@ public class ValueAnnotationDemo {
         nomad.getWorkingDays().forEach(System.out::println);
         System.out.println(nomad.getDatabaseValues());
         System.out.println(nomad.nomadIdentity());
-        Arrays.stream(nomad.intList).forEach(System.out::print);
-        System.out.println();
+        System.out.println(String.join(",",nomad.intList));
         ctx.close();
     }
 }

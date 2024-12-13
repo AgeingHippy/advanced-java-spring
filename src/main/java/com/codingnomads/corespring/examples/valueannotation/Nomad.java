@@ -20,7 +20,7 @@ public class Nomad {
     private String pet;
 
     @Value("${custom.intList}")
-    int[] intList;
+    String[] intList;
 
     public Nomad(@Value("${nomad.name}") String name, @Value("${nomad.age}") Integer age) {
         this.name = name;
