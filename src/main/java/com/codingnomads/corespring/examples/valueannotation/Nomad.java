@@ -13,6 +13,15 @@ public class Nomad {
 
     private Integer age;
 
+    @Value("${custom.car:Ford}")
+    private String car;
+
+    @Value("${custom.pet:cat}")
+    private String pet;
+
+    @Value("${custom.intList}")
+    int[] intList;
+
     public Nomad(@Value("${nomad.name}") String name, @Value("${nomad.age}") Integer age) {
         this.name = name;
         this.age = age;
@@ -50,7 +59,11 @@ public class Nomad {
                 .concat(" , ")
                 .concat(framework)
                 .concat(" and ")
-                .concat(ide);
+                .concat(ide)
+                .concat("\n and has a ")
+                .concat(car)
+                .concat(" and a ")
+                .concat(pet);
     }
 
     public List<String> getWorkingDays() {

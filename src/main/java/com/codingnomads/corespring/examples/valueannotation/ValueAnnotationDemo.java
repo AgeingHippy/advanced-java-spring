@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class ValueAnnotationDemo {
     public static void main(String[] args) {
@@ -17,6 +20,8 @@ public class ValueAnnotationDemo {
         nomad.getWorkingDays().forEach(System.out::println);
         System.out.println(nomad.getDatabaseValues());
         System.out.println(nomad.nomadIdentity());
+        Arrays.stream(nomad.intList).forEach(System.out::print);
+        System.out.println();
         ctx.close();
     }
 }
