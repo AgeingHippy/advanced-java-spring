@@ -10,7 +10,8 @@ public class PropertySourceAnnotationDemo {
         ctx.refresh();
         final App app = ctx.getBean(App.class);
         System.out.println("Values from myapp.properties: " + "App Name: " + app.getAppName() + ", App Version: "
-                + app.getAppVersion());
+                + app.getAppVersion() + " anotherName: " + app.getAnotherName() + " , anotherPlace: " + app.getAnotherPlace()+
+                " with a profileDependantValue of " + app.getProfileDependantValue());
         ctx.close();
     }
 }

@@ -7,5 +7,5 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan
-@PropertySource(value = "myapp.properties", ignoreResourceNotFound = true)
+@PropertySource({"myapp.properties","another.properties"})
 public class PropertySourceAnnotationConfig {}
