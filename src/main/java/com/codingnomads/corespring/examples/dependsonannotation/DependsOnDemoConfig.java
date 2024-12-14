@@ -10,6 +10,12 @@ public class DependsOnDemoConfig {
 
     @Bean
     @DependsOn(value = "jdk")
+    public Licence licence() {
+        return new Licence();
+    }
+
+    @Bean
+    @DependsOn(value = "jdk")
     public SpringDeveloper springDeveloper() {
         return new SpringDeveloper();
     }
