@@ -2,6 +2,7 @@
 package com.codingnomads.corespring.examples.scopeannotaion;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
@@ -24,6 +25,21 @@ public class ScopeAnnotationDemo {
         System.out.println(prototypeBean1.hashCode());
         System.out.println(prototypeBean2.hashCode());
         System.out.println();
+
+        MyPrototype myPrototype1 = ctx.getBean(MyPrototype.class);
+        MyPrototype myPrototype2 = ctx.getBean(MyPrototype.class);
+        System.out.println("-----Hashcode of MyPrototype-----");
+        System.out.println(myPrototype1.hashCode());
+        System.out.println(myPrototype2.hashCode());
+        System.out.println();
+
+        MySingleton mySingleton1 = ctx.getBean(MySingleton.class);
+        MySingleton mySingleton2 =  ctx.getBean(MySingleton.class);
+        System.out.println("-----Hashcode of MySingleton-----");
+        System.out.println(mySingleton1.hashCode());
+        System.out.println(mySingleton2.hashCode());
+        System.out.println();
+
         ctx.close();
     }
 }
