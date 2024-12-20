@@ -22,6 +22,6 @@ public class Post {
     private String content;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn (name = "post_id")
     private List<Comment> comments;
 }

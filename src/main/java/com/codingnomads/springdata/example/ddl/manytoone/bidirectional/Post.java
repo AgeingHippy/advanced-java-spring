@@ -2,7 +2,9 @@
 package com.codingnomads.springdata.example.ddl.manytoone.bidirectional;
 
 import jakarta.persistence.*;
+
 import java.util.Set;
+
 import lombok.*;
 
 @Entity
@@ -24,4 +26,7 @@ public class Post {
     // this annotation references the configuration on the post field in the Comment class
     @OneToMany(mappedBy = "post")
     private Set<Comment> comments;
+
+    @ManyToOne(optional = false)
+    private User user;
 }

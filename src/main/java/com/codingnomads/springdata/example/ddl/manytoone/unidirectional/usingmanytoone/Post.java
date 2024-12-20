@@ -19,4 +19,8 @@ public class Post {
 
     @Column(nullable = false)
     private String content;
+
+    @ManyToOne(optional = false)
+//    @JoinColumn(name = "author")
+    private User user;
 }
