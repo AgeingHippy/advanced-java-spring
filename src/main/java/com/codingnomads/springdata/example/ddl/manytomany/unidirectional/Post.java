@@ -33,5 +33,10 @@ public class Post {
 
     // set up many-to-many relationship with the tag class
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Location> location;
+    @JoinTable(name = "post_location")
+    private Set<Location> locations;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "post_topic")
+    private Set<Topic> topics;
 }

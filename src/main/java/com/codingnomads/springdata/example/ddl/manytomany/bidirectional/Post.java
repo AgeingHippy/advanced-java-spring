@@ -26,5 +26,6 @@ public class Post {
     private Set<Comment> comments;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "post_location")
     private Set<Location> locations;
 }
