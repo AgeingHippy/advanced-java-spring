@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class CrudRepoDemo implements CommandLineRunner {
 
@@ -29,6 +31,15 @@ public class CrudRepoDemo implements CommandLineRunner {
         user = userRepo.save(user);
         user2 = userRepo.save(user2);
 
+        ArrayList<User> userList = new ArrayList<>();
+        userList.add(User.builder().firstName("Jack").lastName("Sparrow").age(44).build());
+        userList.add(User.builder().firstName("John").lastName("Jones").age(54).build());
+        userList.add(User.builder().firstName("Robin").lastName("Williams").age(64).build());
+        userList.add(User.builder().firstName("Lucy").lastName("Letby").age(74).build());
+        userList.add(User.builder().firstName("William").lastName("Shakespeare").age(84).build());
+
+        userRepo.saveAll(userList);
+
         Iterable<User> users = userRepo.findAll();
 
         for (User u : users) {
@@ -36,7 +47,9 @@ public class CrudRepoDemo implements CommandLineRunner {
         }
 
         // delete the user using the id of the inserted user object
-        userRepo.deleteById(user.getId());
-        userRepo.deleteById(user2.getId());
+//        userRepo.deleteById(user.getId());
+//        userRepo.deleteById(user2.getId());
+
+        userRepo.deleteAll();
     }
 }

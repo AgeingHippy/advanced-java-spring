@@ -1,12 +1,14 @@
 /* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.dml.introducingrepositories.jparepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.parameters.P;
 
 @SpringBootApplication
 public class JpaRepoDemo implements CommandLineRunner {
@@ -20,6 +22,12 @@ public class JpaRepoDemo implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        nomadsExample();
+
+        myExample();
+    }
+
+    private void nomadsExample() {
         SoftDrink fanta = SoftDrink.builder().name("Fanta").rating(10).build();
         SoftDrink coke = SoftDrink.builder().name("Coca-Cola").rating(4).build();
         SoftDrink drPepper = SoftDrink.builder().name("Dr. Pepper").rating(1).build();
@@ -68,5 +76,44 @@ public class JpaRepoDemo implements CommandLineRunner {
 
         // delete all 3 soft drinks in a batch
         softDrinkRepo.deleteAllInBatch();
+    }
+
+    private void myExample() {
+        ArrayList<SoftDrink> softDrinks = new ArrayList<>();
+        softDrinks.add(SoftDrink.builder().name("Coke").rating(2).build());
+        softDrinks.add(SoftDrink.builder().name("Pepsi").rating(2).build());
+        softDrinks.add(SoftDrink.builder().name("Fanta Orange").rating(6).build());
+        softDrinks.add(SoftDrink.builder().name("Fanta Grape").rating(5).build());
+        softDrinks.add(SoftDrink.builder().name("Fanta Lemon").rating(4).build());
+        softDrinks.add(SoftDrink.builder().name("Sprite").rating(6).build());
+
+        softDrinkRepo.saveAllAndFlush(softDrinks);
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(0,2,sort);
+        Page<SoftDrink> softDrinkPage = softDrinkRepo.findAll(pageable);
+
+        while (softDrinkPage.hasContent()) {
+            softDrinkPage.forEach(System.out::println);
+            pageable = pageable.next();
+            softDrinkPage = softDrinkRepo.findAll(pageable);
+        }
+
+        softDrinks = new ArrayList<SoftDrink>(softDrinkRepo.findAll());
+
+        softDrinks.forEach(softDrink -> { softDrink.setRating(softDrink.getRating()+1);});
+
+        softDrinks.forEach(System.out::println);
+
+        softDrinkRepo.saveAll(softDrinks);
+
+        Example<SoftDrink> exampleSoftDrink = Example.of( SoftDrink.builder().rating(7).build());
+
+        System.out.println("============");
+        softDrinkRepo.findAll(exampleSoftDrink).forEach(System.out::println);
+
+        //clear the repo
+        softDrinkRepo.deleteAllInBatch();
+
     }
 }

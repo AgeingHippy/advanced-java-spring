@@ -65,6 +65,7 @@ public class CoreLabApplication implements CommandLineRunner {
         driver1.endOfDay();
         driver2.endOfDay();
 
+
         //is driver still here?
         System.out.println("driver1.name = " + driver1.getName());
 
@@ -72,6 +73,8 @@ public class CoreLabApplication implements CommandLineRunner {
 
         //is driver still here?
         System.out.println("driver1.name = " + driver1.getName());
+
+
 
     }
 }
