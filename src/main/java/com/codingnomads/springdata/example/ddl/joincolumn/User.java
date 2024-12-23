@@ -4,6 +4,8 @@ package com.codingnomads.springdata.example.ddl.joincolumn;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -15,6 +17,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany( mappedBy = "user")
+    private Set<UserRole> userRoles;
+
 }
