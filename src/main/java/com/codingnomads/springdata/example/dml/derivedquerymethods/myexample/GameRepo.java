@@ -1,5 +1,6 @@
 package com.codingnomads.springdata.example.dml.derivedquerymethods.myexample;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,11 @@ public interface GameRepo extends JpaRepository<Game,Long> {
 
     List<Game> findByPlatforms_name(String platformName);
 
+    List<Game> findByPlatforms_name(String platformName, Pageable pageable);
+
     List<Game> findByPlatforms(Platform platform);
+
+    List<Game> findByPlatforms(Platform platform, Pageable pageable);
 
     List<Game> findByGenreIsNot(Genre genre);
 

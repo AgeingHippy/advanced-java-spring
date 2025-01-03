@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class MyExampleApplication implements CommandLineRunner {
         genres.add(Genre.builder().name("RPG").build());
         genres.add(Genre.builder().name("Survival").build());
         genres.add(Genre.builder().name("Simulation").build());
+        genres.add(Genre.builder().name("Arcade").build());
         genres = new ArrayList<>(genreRepo.saveAll(genres));
 
         //create Platforms
@@ -77,6 +81,7 @@ public class MyExampleApplication implements CommandLineRunner {
                 .genre(genreRepo.findFirstByName("Survival"))
                 .price(14.50)
                 .build();
+        game.addPlatform(platformRepo.findFirstByName("PC"));
         game.addPlatform(platformRepo.findFirstByName("X-BOX"));
         game.addPlatform(platformRepo.findFirstByName("ATARI"));
         game.addPlatform(platformRepo.findFirstByName("PLAYSTATION"));
@@ -87,12 +92,44 @@ public class MyExampleApplication implements CommandLineRunner {
                 .genre(genreRepo.findFirstByName("First Person Shooter"))
                 .price(55.50)
                 .build();
+        game.addPlatform(platformRepo.findFirstByName("PC"));
         game.addPlatform(platformRepo.findFirstByName("X-BOX"));
         game.addPlatform(platformRepo.findFirstByName("PLAYSTATION"));
         gameRepo.save(game);
 
+        game = Game.builder()
+                .name("Mario Brothers")
+                .genre(genreRepo.findFirstByName("Arcade"))
+                .price(55.50)
+                .build();
+        game.addPlatform(platformRepo.findFirstByName("X-BOX"));
+        game.addPlatform(platformRepo.findFirstByName("PLAYSTATION"));
+        game.addPlatform(platformRepo.findFirstByName("ATARI"));
+        gameRepo.save(game);
+
         System.out.println("======== PC Games =========");
         List<Game> pcGames = gameRepo.findByPlatforms_name("PC");
+
+        System.out.println("======== PC Games - (2 per page) =========");
+        Pageable pageable = PageRequest.of(0,2);
+        pcGames = gameRepo.findByPlatforms_name("PC", pageable);
+
+        while (!pcGames.isEmpty()) {
+            pcGames.forEach(System.out::println);
+            pageable = pageable.next();
+            pcGames = gameRepo.findByPlatforms_name("PC", pageable);
+        }
+
+        System.out.println("======== PC Games SORTED - (2 per page) =========");
+        Sort sort = Sort.by(Sort.Direction.ASC,"name");
+        pageable = PageRequest.of(0,2,sort);
+        pcGames = gameRepo.findByPlatforms_name("PC", pageable);
+
+        while (!pcGames.isEmpty()) {
+            pcGames.forEach(System.out::println);
+            pageable = pageable.next();
+            pcGames = gameRepo.findByPlatforms_name("PC", pageable);
+        }
 
         pcGames.forEach(System.out::println);
 
