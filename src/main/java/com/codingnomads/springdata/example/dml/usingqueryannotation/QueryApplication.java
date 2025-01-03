@@ -15,6 +15,8 @@ public class QueryApplication implements CommandLineRunner {
 
     @Autowired
     PlantService plantService;
+    @Autowired
+    SoilTypeService soilTypeService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -22,5 +24,15 @@ public class QueryApplication implements CommandLineRunner {
         plantService.saveStuff();
 
         plantService.getStuff();
+
+        soilTypeService.addSoilTypes();
+        soilTypeService.doSoilStuff();
+
+        cleanUp();
+    }
+
+    private void cleanUp() {
+        plantService.deleteAll(); //calls default CRUD plantRepo.deleteAll()
+        soilTypeService.deleteAll(); //calls default CRUD soilTypeRepo.deleteAll()
     }
 }

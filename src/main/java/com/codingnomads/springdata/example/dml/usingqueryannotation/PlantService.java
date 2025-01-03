@@ -71,6 +71,8 @@ public class PlantService {
                     .favoriteSoilType(soilType)
                     .build();
             plantRepo.save(plant4);
+
+            plantRepo.flush();
         }
     }
 
@@ -103,5 +105,11 @@ public class PlantService {
             pageRequest = pageRequest.next();
 
         } while (page.hasNext());
+    }
+
+    @Transactional
+    public void deleteAll() {
+//        plantRepo.deleteAll();
+        plantRepo.deleteAllJPA();
     }
 }

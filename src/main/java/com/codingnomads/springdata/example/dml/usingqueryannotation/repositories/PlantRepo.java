@@ -3,10 +3,13 @@ package com.codingnomads.springdata.example.dml.usingqueryannotation.repositorie
 
 import com.codingnomads.springdata.example.dml.usingqueryannotation.models.Plant;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -98,4 +101,8 @@ public interface PlantRepo extends JpaRepository<Plant, Long> {
             countQuery =
                     "SELECT count(p.id) FROM Plant p JOIN SoilType st ON p.favoriteSoilType.id = st.id WHERE ph < ?1")
     Page<Plant> getPlantsWithPhLessThan(double phUpperBound, Pageable pageable);
+
+    @Modifying
+    @Query(value = "DELETE FROM Plant")
+    void deleteAllJPA();
 }
