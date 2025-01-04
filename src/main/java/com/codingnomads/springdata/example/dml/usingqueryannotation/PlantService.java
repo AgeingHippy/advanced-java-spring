@@ -107,9 +107,9 @@ public class PlantService {
         } while (page.hasNext());
     }
 
-    @Transactional
+//    @Transactional
     public void deleteAll() {
-//        plantRepo.deleteAll();
-        plantRepo.deleteAllJPA();
+        plantRepo.deleteAll();
+//        plantRepo.deleteAllJPA();
     }
 }

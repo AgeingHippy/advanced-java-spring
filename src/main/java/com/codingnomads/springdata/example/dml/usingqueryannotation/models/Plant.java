@@ -24,7 +24,7 @@ public class Plant {
     private String name;
 
     @ManyToOne(
-            cascade = {CascadeType.ALL},
+            cascade = {CascadeType.PERSIST},
             optional = false,
             fetch = FetchType.EAGER)
     private SoilType favoriteSoilType;
