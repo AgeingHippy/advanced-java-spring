@@ -7,6 +7,7 @@ import com.codingnomads.springdata.example.dml.commonproblems.models.User;
 import com.codingnomads.springdata.example.dml.commonproblems.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
+    @Transactional
     public void persistAFewUsers() {
 
         // set up an Address
@@ -36,6 +38,7 @@ public class UserService {
                 .contactCard(contactCard)
                 .build();
         // save User to the db
+        System.out.println("== SAVE USER 1 ==");
         userRepo.save(user);
 
         // create a new ContactCard and reassign contactCard
@@ -50,6 +53,7 @@ public class UserService {
                 .contactCard(contactCard)
                 .build();
         // save new User assigned to user
+        System.out.println("== SAVE USER 2 ==");
         userRepo.save(user);
 
         // create new ContactCard and assign it to contactCard
@@ -65,9 +69,11 @@ public class UserService {
                 .contactCard(contactCard)
                 .build();
         // save new User
+        System.out.println("== SAVE USER 3 ==");
         userRepo.save(user);
     }
 
+    @Transactional(readOnly = true)
     public void querySomeData() {
 
         // find user by username
@@ -105,6 +111,7 @@ public class UserService {
                 .build();
 
         // save that user to the database
+        System.out.println("=== SAVE USER 1 ===");
         userRepo.save(user1);
 
         // no problems so far
@@ -133,6 +140,7 @@ public class UserService {
                 .build();
 
         // attempt to save new User with already assigned ID
+        System.out.println("=== SAVE USER 2 ===");
         userRepo.save(user2);
     }
 }
