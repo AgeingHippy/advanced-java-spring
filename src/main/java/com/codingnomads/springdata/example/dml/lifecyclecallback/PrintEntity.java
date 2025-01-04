@@ -4,6 +4,9 @@ package com.codingnomads.springdata.example.dml.lifecyclecallback;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +20,13 @@ public class PrintEntity {
 
     @Column
     private String value;
+
+    @Column(name="date_updated",
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+            nullable = false,
+            updatable = false,
+            insertable = false)
+    private Timestamp dateUpdated;
 
     // write your methods here
     @PrePersist

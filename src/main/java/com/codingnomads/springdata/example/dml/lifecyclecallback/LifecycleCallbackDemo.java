@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @SpringBootApplication
 public class LifecycleCallbackDemo {
@@ -31,7 +32,10 @@ public class LifecycleCallbackDemo {
             printEntities.add( PrintEntity.builder().value("D").build());
 
             System.out.println("=== SAVE 3 ENTITIES ===");
-            printEntityRepository.saveAll(printEntities);
+            printEntityRepository.saveAll(printEntities).forEach(System.out::println);
+
+            System.out.println("=== refresh these entities ===");
+            printEntities = (ArrayList<PrintEntity>) printEntityRepository.findAllById(printEntities.stream().map(PrintEntity::getId).toList());
 
             System.out.println("=== UPDATE 1 ENTITY AND SAVE ===");
             printEntity1.setValue("AA");
