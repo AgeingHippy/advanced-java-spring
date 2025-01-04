@@ -3,7 +3,9 @@ package com.codingnomads.springdata.example.dml.transactional.services;
 
 import com.codingnomads.springdata.example.dml.transactional.models.Point;
 import com.codingnomads.springdata.example.dml.transactional.repositories.PointRepo;
+
 import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -64,6 +66,20 @@ public class PointService {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Point getPointById(Long id) {
         return repo.getOne(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Point getPointByIdExceptionAverted(Long id) {
+        Point p = repo.getOne(id);
+        p.getX(); //refer to object to ensure no lazy load issue while session closed
+        return p;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Point getPointById2(Long id) {
+        Point p = repo.getOne(id);
+        p.getX(); //refer to object to ensure no lazy load issue while session closed
+        return p;
     }
 
     @Transactional(readOnly = true)
