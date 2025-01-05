@@ -2,6 +2,7 @@
 package com.codingnomads.springdata.example.mybatis.mapperslesson;
 
 import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,13 +44,60 @@ public class MyBatisDemoApplication {
             songMapper.insertNewSong(song1);
             songMapper.insertNewSong(song2);
 
-            Song song3 = songMapper.getSongById(1L);
+            songMapper.insertNewSong(Song.builder().name("Gasolina").artist_name("Daddy Yankee").album_name("Barrio Fino").song_length(192).build());
+            songMapper.insertNewSong(Song.builder().name("Despacito").artist_name("Daddy Yankee, Luis Fonsi").album_name("Despacito & mis grandes éxitos").song_length(228).build());
+            songMapper.insertNewSong(Song.builder().name("Salud y vida").artist_name("Daddy Yankee").album_name("Barrio Fino").song_length(206).build());
+            songMapper.insertNewSong(Song.builder().name("Despacito").artist_name("Lim Young Woong").album_name("Love call center PART3").song_length(115).build());
 
-            List<Song> longSongs = songMapper.getSongsWithLengthGreaterThan(250);
+            System.out.println("== Songs longer than 250 seconds ==");
+            List<Song> songs = songMapper.getSongsWithLengthGreaterThan(250);
+            songs.forEach(System.out::println);
 
-            longSongs.forEach(System.out::println);
+            System.out.println("== Songs with length in range ==");
+            songs = songMapper.getSongsWithLengthBetween(200, 260);
+            songs.forEach(System.out::println);
 
-            System.out.println(song3.toString());
+            System.out.println("== Songs by Album and Artist ==");
+            songs = songMapper.getSongsByAlbumAndArtist("Daddy Yankee","Barrio Fino");
+            songs.forEach(System.out::println);
+
+            System.out.println("== Songs by name ==");
+            songs = songMapper.getSongsByName("Despacito");
+            songs.forEach(System.out::println);
+
+            System.out.println("== Songs by artist ==");
+            songs = songMapper.getSongsByArtist("Daddy Yankee");
+            songs.forEach(System.out::println);
+
+            System.out.println("== Song with ID " + song1.getId() + " ==");
+            Song song = songMapper.getSongById(song1.getId());
+            System.out.println(song.toString());
+
+            System.out.println("== Update Song with ID " + song.getId() + " ==");
+            song.setName(song.getName()+ " mod");
+            song.setArtist_name(song.getArtist_name()+ " mod");
+            song.setAlbum_name(song.getAlbum_name()+ " mod");
+            song.setSong_length(song.getSong_length()+60);
+            songMapper.updateSong(song);
+            song = songMapper.getSongById(song.getId());
+            System.out.println(song.toString());
+
+            int deleteCount = songMapper.deleteSongsByAlbumAndArtist(song.getArtist_name(), song.getAlbum_name());
+            System.out.println("deleteCount (expect 1) = " + deleteCount);
+
+            songMapper.deleteSongsByArtist(song2);
+
+            songMapper.deleteSongById(song1.getId());
+
+            System.out.println("== All remaining songs ==");
+            songs = songMapper.getAllSongs();
+            songs.forEach(System.out::println);
+
+            songMapper.deleteAllSongs();
+
+            System.out.println("== No of remaining songs after delete all ==");
+            System.out.println("Count = " + songMapper.getAllSongs().size());
+
         };
     }
 }
