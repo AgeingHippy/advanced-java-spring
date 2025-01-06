@@ -17,17 +17,17 @@ public interface ArtistMapper {
     @Results({
         @Result(property = "id", column = "id"),
         @Result(
-                property = "songs",
+                property = "albums",
                 column = "id",
                 javaType = List.class,
                 many =
                         @Many(
                                 select =
-                                        "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.SongMapper.getSongsByArtistId",
+                                        "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.AlbumMapper.getAlbumsByArtistId",
                                 fetchType = FetchType.LAZY))
     })
-    Artist getArtistByIdWithSongs(Long id);
+    Artist getArtistByIdWithAlbums(Long id);
 
     @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
-    Artist getArtistByIdWithoutSongs(Long id);
+    Artist getArtistByIdWithoutAlbums(Long id);
 }
