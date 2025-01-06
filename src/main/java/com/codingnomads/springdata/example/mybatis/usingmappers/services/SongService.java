@@ -18,9 +18,12 @@ public class SongService {
     @Autowired
     ArtistMapper artistMapper;
 
+    private long artistId;
+    private long songId;
+
     @Transactional(rollbackFor = Exception.class)
     public void doSomething() throws Exception {
-        Song s = songMapper.getSongById(14L);
+        Song s = songMapper.getSongById(songId);
         songMapper.insertNewSong(s);
         throw new Exception();
     }
@@ -33,6 +36,7 @@ public class SongService {
 
         // enter artist first since song requires artist ID
         artistMapper.insertNewArtist(tyler);
+        artistId = tyler.getId(); //preserve for other methods
 
         // create song using artist
         Song earfquake = new Song();
@@ -52,6 +56,7 @@ public class SongService {
 
         // insert new song. note there are no detachment issues
         songMapper.insertNewSong(seeYouAgain);
+        songId = seeYouAgain.getId();
     }
 
     public void queryData() {
@@ -60,10 +65,10 @@ public class SongService {
         System.out.println(songMapper.getSongsByName("EARFQUAKE"));
 
         // get a song by ID
-        System.out.println(songMapper.getSongById(1L));
+        System.out.println(songMapper.getSongById(songId));
 
         // get an artist (remember songs excluded from toString())
-        Artist artist = artistMapper.getArtistById(1L);
+        Artist artist = artistMapper.getArtistById(artistId);
         System.out.println(artist);
 
         // print artists songs
@@ -73,6 +78,6 @@ public class SongService {
     }
 
     public void deleteSomeData() {
-        songMapper.deleteSongById(1L);
+        songMapper.deleteSongById(songId);
     }
 }

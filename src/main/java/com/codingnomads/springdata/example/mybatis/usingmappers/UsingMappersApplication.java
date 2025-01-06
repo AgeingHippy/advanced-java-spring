@@ -21,8 +21,10 @@ public class UsingMappersApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         songService.insertData();
         songService.queryData();
-        songService.deleteSomeData();
+
         // uncomment to explore transactional rollback behavior
-        // service.doSomething();
+        songService.doSomething();
+
+        songService.deleteSomeData();
     }
 }

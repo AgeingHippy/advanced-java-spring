@@ -1,0 +1,35 @@
+Getting Started|Introduction|About Java 101
+Getting Started|Introduction|Using CodingNomads Discord Community|cat1.jpg,cat3.jpg
+Getting Started|Java Installation|How to Install Java JDK
+Getting Started|Java Installation|Quiz: JDK
+Getting Started|Inspiration|Why Are You Here|cat2.jpg
+Getting Started|Inspiration|Productivity Tips, Growth Mindset, and Why Learn Java
+Tools of the Developer Trade|Command Line Interface (CLI)|Using a Terminal Emulator
+Tools of the Developer Trade|Command Line Interface (CLI)|Who is the CLI?
+Tools of the Developer Trade|Command Line Interface (CLI)|Video: Intro to the CLI
+Tools of the Developer Trade|Command Line Interface (CLI)|What is Vim
+Tools of the Developer Trade|Command Line Interface (CLI)|Video: What is Vim?|cat1.jpg,cat2.jpg,cat3.jpg,cat4.jpg
+Tools of the Developer Trade|Java & the CLI|Java's main() method
+Tools of the Developer Trade|Java & the CLI|Run Java from the CLI
+Tools of the Developer Trade|Java & the CLI|Video: Java & the CLI|cat5.jpg
+Tools of the Developer Trade|File System & Source Files|Dev Workspace Setup
+Tools of the Developer Trade|File System & Source Files|Video: Dev Workspace
+Tools of the Developer Trade|File System & Source Files|Get Your Java Labs Project & Examples
+Tools of the Developer Trade|File System & Source Files|Video: Clone Labs Project
+Tools of the Developer Trade|Git & GitHub|What is GitHub
+Tools of the Developer Trade|Git & GitHub|How to use Git
+Tools of the Developer Trade|Git & GitHub|How to use GitHub
+Tools of the Developer Trade|Git & GitHub|Git Cheatsheet
+Tools of the Developer Trade|Git & GitHub|Video: Using Git
+Tools of the Developer Trade|Git & GitHub|Link: Git & Github Course
+Java Virtual Machine (JVM)|Overview|What is the JVM?
+Java Virtual Machine (JVM)|Overview|How Does the JVM Work?
+Java Virtual Machine (JVM)|Overview|Quiz: JVM
+Java Virtual Machine (JVM)|Overview|Feedback: JVM
+Java's Primitive Data Types|Who you callin' primitive?!?|What are the Java Data Types?
+Java's Primitive Data Types|Who you callin' primitive?!?|Video: Primitive Data Types
+Java's Primitive Data Types|Who you callin' primitive?!?|Code Playground: Primitive Data Types
+Java's Primitive Data Types|Are Strings Primitive Data Types? No.|What is a Java String?
+Java's Primitive Data Types|Assignments|Journal: Java Data Types
+Java's Primitive Data Types|Assignments|Labs: Fundamentals
+Java's Primitive Data Types|Assignments|Feedback: Primitive Data Types
