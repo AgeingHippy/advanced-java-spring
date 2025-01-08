@@ -2,7 +2,9 @@
 package com.codingnomads.springdata.lab.models;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
+
 import lombok.*;
 
 @Entity
@@ -21,7 +23,7 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -34,4 +36,10 @@ public class Route implements Serializable {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_routes_destination_area_id"))
     private Area destination;
+
+    @PrePersist
+    protected void generateCode() {
+        this.code = (origin.getCode() != null ? origin.getCode() : "") + "-" + (destination.getCode() != null ? destination.getCode() : "");
+    }
+
 }
