@@ -58,4 +58,23 @@ public class TaskController {
         taskRepository.deleteById(id);
         return ResponseEntity.ok().body(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable Long id) throws URISyntaxException {
+
+        if (id == null || !taskRepository.existsById(id)) {
+            throw new IllegalStateException();
+        }
+
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        Task updatedTask = optionalTask.get();
+        updatedTask.setName( StringUtils.isEmpty(task.getName()) ? updatedTask.getName() :task.getName() );
+        updatedTask.setCompleted( task.getCompleted() == null  ? updatedTask.getCompleted() :task.getCompleted() );
+
+        taskRepository.save(updatedTask);
+
+        optionalTask = taskRepository.findById(id);
+
+        return ResponseEntity.ok(optionalTask.get());
+    }
 }
