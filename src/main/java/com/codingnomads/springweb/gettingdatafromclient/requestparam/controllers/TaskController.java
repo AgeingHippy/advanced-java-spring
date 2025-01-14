@@ -1,6 +1,7 @@
 /* CodingNomads (C)2024 */
 package com.codingnomads.springweb.gettingdatafromclient.requestparam.controllers;
 
+import com.codingnomads.springdata.example.jpa.domain.User;
 import com.codingnomads.springweb.gettingdatafromclient.requestparam.models.Task;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,4 +44,21 @@ public class TaskController {
                 .mapToObj(i -> Task.builder().id((long) i).name(names.get(i)).build())
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/test1")
+    public Task test1(@RequestParam String name, @RequestParam boolean completed) {
+        return Task.builder().name(name).completed(completed).build();
+    }
+
+    @GetMapping("/test2")
+    public Task test2(@RequestParam(name = "name_alias") String name, @RequestParam(name = "completed_alias") boolean completed) {
+        return Task.builder().name(name).completed(completed).build();
+    }
+
+    @GetMapping("/test3")
+    public Task test3(@RequestParam(required = false,defaultValue = "Bill") String name, @RequestParam(name = "cmp", required = false, defaultValue = "false") boolean completed) {
+        return Task.builder().name(name).completed(completed).build();
+    }
+
+
 }
