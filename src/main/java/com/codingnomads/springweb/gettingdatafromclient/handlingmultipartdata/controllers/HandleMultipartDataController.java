@@ -4,12 +4,17 @@ package com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.c
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.models.DatabaseFile;
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.models.FileResponse;
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.repositories.DatabaseFileRepository;
+
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -86,13 +91,13 @@ public class HandleMultipartDataController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(databaseFile.getFileType()))
                 // display the file inline
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
                 // download file, without setting file name
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
                 // download file, and specify file name
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        String.format("attachment; filename=\"%s\"", databaseFile.getFileName()))
+//                .header(
+//                        HttpHeaders.CONTENT_DISPOSITION,
+//                        String.format("attachment; filename=\"%s\"", databaseFile.getFileName()))
                 .body(new ByteArrayResource(databaseFile.getData()));
     }
 
@@ -124,7 +129,7 @@ public class HandleMultipartDataController {
         final DatabaseFile savedFile = fileRepository.save(databaseFile);
 
         savedFile.setDownloadUrl(ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
+                .path("/images/")
                 .path(String.valueOf(savedFile.getId()))
                 .toUriString());
 
@@ -148,5 +153,58 @@ public class HandleMultipartDataController {
         fileRepository.deleteById(fileId);
         return ResponseEntity.ok(
                 "File with ID " + fileId + " and name " + optional.get().getFileName() + " was deleted");
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getFilesByName(@RequestParam String name) {
+//        Example<DatabaseFile> databaseFileExample = Example.of(DatabaseFile.builder().fileName(name).build());
+//        List<DatabaseFile> databaseFileList = fileRepository.findAll(databaseFileExample);
+        List<DatabaseFile> databaseFileList = fileRepository.findAllByFileNameStartingWith(name);
+        List<FileResponse> fileResponses = new ArrayList<>();
+        databaseFileList.forEach(databaseFile ->
+                fileResponses.add(
+                        FileResponse.builder()
+                                .fileName(databaseFile.getFileName())
+                                .fileDownloadUri(
+                                        ServletUriComponentsBuilder.fromCurrentContextPath()
+                                                .path("/images/")
+                                                .path(String.valueOf(databaseFile.getId()))
+                                                .toUriString()
+                                )
+                                .fileType(databaseFile.getFileType())
+                                .size(databaseFile.getData().length)
+                                .build()
+                ));
+        return ResponseEntity.ok(fileResponses);
+    }
+
+    @PostMapping("/{id}/{name}")
+    public ResponseEntity<?> duplicateFile(@PathVariable Long id, @PathVariable String name) {
+        Optional<DatabaseFile> optionalDatabaseFile = fileRepository.findById(id);
+        if (!optionalDatabaseFile.isPresent()) {
+            return ResponseEntity.badRequest().body("File with id " + id + " not found");
+        }
+        DatabaseFile databaseFile = optionalDatabaseFile.get();
+        DatabaseFile newDatabaseFile = DatabaseFile.builder()
+                .fileName(name)
+                .fileType(databaseFile.getFileType())
+                .data(databaseFile.getData())
+                .build();
+
+        fileRepository.save(newDatabaseFile);
+
+        // create the download URI
+        newDatabaseFile.setDownloadUrl(ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/images/")
+                .path(String.valueOf(newDatabaseFile.getId()))
+                .toUriString());
+
+        // create a FileResponse object using file info and wrap it in a ResponseEntity
+        return ResponseEntity.ok(FileResponse.builder()
+                .fileName(newDatabaseFile.getFileName())
+                .fileDownloadUri(newDatabaseFile.getDownloadUrl())
+                .fileType(newDatabaseFile.getFileType())
+                .size(newDatabaseFile.getData().length)
+                .build());
     }
 }
