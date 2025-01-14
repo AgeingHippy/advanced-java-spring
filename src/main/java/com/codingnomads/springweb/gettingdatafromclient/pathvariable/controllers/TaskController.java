@@ -2,7 +2,9 @@
 package com.codingnomads.springweb.gettingdatafromclient.pathvariable.controllers;
 
 import com.codingnomads.springweb.gettingdatafromclient.pathvariable.models.Task;
+
 import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -48,5 +50,27 @@ public class TaskController {
     @GetMapping(value = "/path-variable-not-encoded/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String pathVariableIsNotEncoded(@PathVariable String name) {
         return name;
+    }
+
+    @GetMapping({"/test1/{name}", "/test1"})
+    public String test1(@PathVariable(required = false) String name) {
+        if (name == null) {
+            return "name not provided";
+        } else {
+            return "Hello " + name;
+        }
+    }
+
+    @GetMapping({"/test2/{id}/{name}/{completed}",
+            "/test2/{id}/{name}",
+            "/test2/{id}",
+            "/test2"})
+    public String test2(@PathVariable Map<String, String> params) {
+        return "Yo-" + params.get("id") + ":" + params.get("name") + ":" + params.get("completed");
+    }
+
+    @GetMapping({"/test3/{name}"})
+    public String test3(@PathVariable String name) {
+        return "You called " + name;
     }
 }
