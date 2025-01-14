@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -17,7 +21,25 @@ public class UserController {
             .email("dev@codingnomads.com")
             .build();
 
-    // using ResponseBody to return a POJO
+    public User user1 = User.builder()
+            .id(1000)
+            .name("Spring Dev1")
+            .email("dev1@codingnomads.com")
+            .build();
+
+    public User user2 = User.builder()
+            .id(1000)
+            .name("Spring Dev2")
+            .email("dev2@codingnomads.com")
+            .build();
+
+    public User user3 = User.builder()
+            .id(1000)
+            .name("Spring Dev3")
+            .email("dev3@codingnomads.com")
+            .build();
+
+        // using ResponseBody to return a POJO
     @ResponseBody
     @GetMapping("/response-body")
     public User userResponseBody() {
@@ -35,4 +57,11 @@ public class UserController {
     public User user() {
         return user;
     }
+
+    @GetMapping("/users")
+    @ResponseBody
+    public List<User> users() {
+        return Arrays.asList(user1, user2, user3);
+    }
+
 }
