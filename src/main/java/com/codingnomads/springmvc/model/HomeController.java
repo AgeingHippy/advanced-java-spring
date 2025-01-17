@@ -17,6 +17,12 @@ public class HomeController {
         model.addAttribute("name", "Developer");
         model.addAttribute("language", "Java");
         model.addAttribute("framework", "Spring");
+
+        model.addAttribute("field1", "Value 1");
+        model.addAttribute("field2", "Value Two");
+        model.addAttribute("field3", "Third value");
+        model.addAttribute("field4", "4");
+
         return "model-page";
     }
 
