@@ -49,4 +49,29 @@ public class TestWebServices {
                 // the view name expected is greeting
                 .andExpect(view().name("greeting"));
     }
+
+    @Test
+    public void testMyRedirect() throws Exception {
+        mockMvc.perform(get("/redirecting"))
+                .andDo(print())
+                .andExpect(redirectedUrl("/hello"));
+    }
+
+    @Test
+    public void testMyHeader() throws Exception {
+        mockMvc.perform(get("/customheader"))
+                .andDo(print())
+                .andExpect(header().string("Header-Key", "headerValue"))
+                .andExpect(content().string("check my headers"));
+    }
+
+    @Test
+    public void checkQueryParameter() throws Exception {
+        String val = "Val"+ Math.random();
+        mockMvc.perform(get("/setvalue?qry="+val))
+                .andDo(print())
+                .andExpect(model().attribute("queryAttribute", val))
+                .andExpect(view().name("greeting"));
+    }
+
 }
