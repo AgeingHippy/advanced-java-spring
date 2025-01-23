@@ -37,6 +37,24 @@ public class HomeController {
         return "authorization/home";
     }
 
+    @GetMapping("/random/su")
+    public String randomSu(Model model) {
+        model.addAttribute("userPath","/random/su");
+        return "authorization/random";
+    }
+
+    @GetMapping("/random/admin")
+    public String randomAdmin(Model model) {
+        model.addAttribute("userPath","/random/admin");
+        return "authorization/random";
+    }
+
+    @GetMapping("/random/user")
+    public String randomUser(Model model) {
+        model.addAttribute("userPath","/random/user");
+        return "authorization/random";
+    }
+
     /*
        Method Security Annotations
 
