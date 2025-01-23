@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomUserService implements UserDetailsService {
 
@@ -34,5 +36,9 @@ public class CustomUserService implements UserDetailsService {
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userPrincipal.setUserMeta(userToUpdate);
         return updatedUser;
+    }
+
+    public List<UserMeta> getAllUserMeta() {
+        return userMetaRepo.findAll();
     }
 }

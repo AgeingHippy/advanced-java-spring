@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
@@ -54,6 +55,14 @@ public class HomeController {
         model.addAttribute("userPath","/random/user");
         return "authorization/random";
     }
+
+    @GetMapping("/random/any/{id}")
+    @PreAuthorize("#id !=  authentication.principal.id") //cannot get when matches own ID
+    public String randomAny(Model model, @PathVariable Long id) {
+        model.addAttribute("userPath","/random/any/"+id);
+        return "authorization/random";
+    }
+    
 
     /*
        Method Security Annotations
