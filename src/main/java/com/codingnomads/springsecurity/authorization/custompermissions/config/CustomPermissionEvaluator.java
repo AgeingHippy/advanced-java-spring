@@ -30,8 +30,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             Long id = (Long) method.invoke(targetDomainObject);
 
             // compile GrantedAuthorityString
-            String grantedAuthorityString = ((Long) id != -1L ? id : userService.getUser(authentication.getName()).getId()) +
-                    "_" + targetType.getName() + "_" + permission;
+            String grantedAuthorityString = id + "_" + targetType.getName() + "_" + permission;
 
             // check if user has matching authority. Return true if so false otherwise
             for (GrantedAuthority ga : grantedAuthorities) {
