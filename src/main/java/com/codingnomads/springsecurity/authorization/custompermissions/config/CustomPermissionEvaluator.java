@@ -4,13 +4,19 @@ package com.codingnomads.springsecurity.authorization.custompermissions.config;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
+
+import com.codingnomads.springsecurity.authorization.custompermissions.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CustomPermissionEvaluator implements PermissionEvaluator {
+
+    private final UserService userService;
 
     // better suited for @PostAuthorize as we have access to the return object
     @Override
@@ -24,7 +30,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             Long id = (Long) method.invoke(targetDomainObject);
 
             // compile GrantedAuthorityString
-            String grantedAuthorityString = id + "_" + targetType.getName() + "_" + permission;
+            String grantedAuthorityString = ((Long) id != -1L ? id : userService.getUser(authentication.getName()).getId()) +
+                    "_" + targetType.getName() + "_" + permission;
 
             // check if user has matching authority. Return true if so false otherwise
             for (GrantedAuthority ga : grantedAuthorities) {
@@ -47,7 +54,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
         try {
             // compile grantedAuthorityString
-            String grantedAuthorityString = targetId + "_" + targetType + "_" + permission;
+            String grantedAuthorityString = ((Long) targetId != -1L ? targetId : userService.getUser(authentication.getName()).getId())
+                    + "_" + targetType + "_" + permission;
 
             // check if user has matching authority. Return true if so false otherwise
             for (GrantedAuthority ga : grantedAuthorities) {

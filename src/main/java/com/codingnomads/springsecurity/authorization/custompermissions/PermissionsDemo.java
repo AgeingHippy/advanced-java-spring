@@ -33,21 +33,38 @@ public class PermissionsDemo implements CommandLineRunner {
 
         User user1;
         User user2;
+        User user3;
+        User user4;
 
         if (userRepository.findAll().isEmpty()) {
             user1 = new User("user1@email.com", passwordEncoder.encode("12345678"));
             user2 = new User("user2@email.com", passwordEncoder.encode("12345678"));
-            userRepository.saveAll(Arrays.asList(user1, user2));
+            user3 = new User("user3@email.com", passwordEncoder.encode("12345678"));
+            user4 = new User("user4@email.com", passwordEncoder.encode("12345678"));
+            userRepository.saveAll(Arrays.asList(user1, user2, user3, user4));
         } else {
             user1 = userRepository.findByEmail("user1@email.com");
             user2 = userRepository.findByEmail("user2@email.com");
+            user3 = userRepository.findByEmail("user3@email.com");
+            user4 = userRepository.findByEmail("user4@email.com");
         }
 
         if (authRepository.findAll().isEmpty()) {
             authRepository.save(new MyGrantedAuthority(user1.getClass().getTypeName(), user1.getId(), "READ"));
             authRepository.save(new MyGrantedAuthority(user1.getClass().getTypeName(), user1.getId(), "DELETE"));
+
             authRepository.save(new MyGrantedAuthority(user2.getClass().getTypeName(), user2.getId(), "READ"));
             authRepository.save(new MyGrantedAuthority(user2.getClass().getTypeName(), user2.getId(), "DELETE"));
+
+            authRepository.save(new MyGrantedAuthority(user3.getClass().getTypeName(), user3.getId(), "READ"));
+            authRepository.save(new MyGrantedAuthority(user3.getClass().getTypeName(), user4.getId(), "UPDATE"));
+            authRepository.save(new MyGrantedAuthority(user3.getClass().getTypeName(), user3.getId(), "DELETE"));
+
+            authRepository.save(new MyGrantedAuthority(user4.getClass().getTypeName(), user4.getId(), "READ"));
+            authRepository.save(new MyGrantedAuthority(user4.getClass().getTypeName(), user4.getId(), "UPDATE"));
+            authRepository.save(new MyGrantedAuthority(user4.getClass().getTypeName(), user4.getId(), "READALL"));
+            authRepository.save(new MyGrantedAuthority(user4.getClass().getTypeName(), user4.getId(), "DELETE"));
+            authRepository.save(new MyGrantedAuthority(user4.getClass().getTypeName(), user4.getId(), "DELETEALL"));
         }
     }
 }

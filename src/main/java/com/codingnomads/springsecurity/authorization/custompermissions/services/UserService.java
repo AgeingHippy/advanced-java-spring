@@ -6,6 +6,8 @@ import com.codingnomads.springsecurity.authorization.custompermissions.repositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -14,6 +16,14 @@ public class UserService {
 
     public User getUser(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
     public void deleteUser(Long id) {
