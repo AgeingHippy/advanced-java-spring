@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,13 @@ public class UserController {
     @GetMapping("/users")
     @PostFilter("filterObject.id != authentication.principal.userMeta.id") //only return other user's Meta
     List<UserMeta> getUsers() {
+        List<UserMeta> users = userDetailsService.getAllUserMeta();
+        return users;
+    }
+
+    @GetMapping("/users/post-auth")
+    @PostAuthorize("hasRole('ROLE_ADMIN')") //only return other user's Meta
+    List<UserMeta> getUsersIfAdmin() {
         List<UserMeta> users = userDetailsService.getAllUserMeta();
         return users;
     }
