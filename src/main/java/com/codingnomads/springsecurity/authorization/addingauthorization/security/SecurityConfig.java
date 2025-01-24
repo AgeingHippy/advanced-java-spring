@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +22,12 @@ public class SecurityConfig {
         http
                 // disable CSRF to allow Postman to interact with the application
                 .csrf(csrf -> csrf.disable())
+//                .addFilterAfter(new AuditInterceptor(), AnonymousAuthenticationFilter.class)
                 // start changing endpoint authorization requirements
                 .authorizeHttpRequests(auth -> auth
                         // the following 4 paths should be allowed to all always. They are static and are required to
                         // present the pages properly.
-                        .requestMatchers("/js/**", "/css/**", "/img/**", "/webjars/**")
-                        .permitAll()
+                        .requestMatchers("/js/**", "/css/**", "/img/**", "/webjars/**").permitAll()
                         // make sure that the admin page can only be accessed user with ROLE_ADMIN
                         .requestMatchers("/admin", "/random/admin").hasRole("ADMIN")
                         // only allow users with ROLE_SUPERU to access the super user page
@@ -34,10 +35,12 @@ public class SecurityConfig {
                         // only allow users with an UPDATER authority to update users.
                         .requestMatchers("/update-user").hasAuthority("UPDATER")
                         // make sure that all others requests require authentication.
-                        .anyRequest()
-                        .authenticated())
+                        .requestMatchers("users/post-auth").permitAll()
+//                        .requestMatchers("users/post-auth").anonymous()
+                        .anyRequest().authenticated())
                 // use HttpBasic authentication for /update-user, withDefaults() allows you to chain the next method
                 .httpBasic(Customizer.withDefaults())
+//                .addFilter(new AnonymousAuthenticationFilter("BOB"))
                 // use a form to log in with the default login page
                 .formLogin(Customizer.withDefaults());
 

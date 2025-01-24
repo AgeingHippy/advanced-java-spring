@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,8 +42,9 @@ public class UserController {
     }
 
     @GetMapping("/users/post-auth")
-    @PostAuthorize("hasRole('ROLE_ADMIN')") //only return other user's Meta
-    List<UserMeta> getUsersIfAdmin() {
+    @PostAuthorize("hasRole('ROLE_ANONYMOUS')") //only return if user has role ANONYMOUS
+    List<UserMeta> getUsersIfAdmin(@CurrentSecurityContext SecurityContext context) {
+        System.out.println(context.getAuthentication());
         List<UserMeta> users = userDetailsService.getAllUserMeta();
         return users;
     }
