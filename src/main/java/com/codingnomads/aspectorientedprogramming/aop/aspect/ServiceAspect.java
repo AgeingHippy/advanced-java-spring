@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Aspect
 @Component
 public class ServiceAspect {
@@ -14,7 +16,30 @@ public class ServiceAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceAspect.class);
 
     @Pointcut(value = "execution(* com.codingnomads.aspectorientedprogramming.aop.service.StudentService.*(..))")
-    private void logAllStudentServiceMethods() {}
+    private void logAllStudentServiceMethods() {
+    }
+
+    @Pointcut("execution(* com.codingnomads.aspectorientedprogramming.aop.service.StudentService.saveStudent(..))")
+    private void saveStudentPointcut() {
+    }
+
+    @Before("execution(* com.codingnomads.aspectorientedprogramming.aop.service.StudentService.saveStudent(String, String))")
+    public void saveStudentWithStringParametersBefore(JoinPoint joinPoint) {
+        LOGGER.info("Custom saveStudentWithStringParametersBefore on: " + joinPoint.getSignature() +
+                " with arguments: " + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    @Before("saveStudentPointcut()")
+    public void saveStudentBefore(JoinPoint joinPoint) {
+        LOGGER.info("Custom saveStudentBefore on: " + joinPoint.getSignature() + " with arguments: "
+                + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    @After("saveStudentPointcut()")
+    public void saveStudentAfter(JoinPoint joinPoint) {
+        LOGGER.info("Custom saveStudentAfter on: " + joinPoint.getSignature());
+    }
+
 
     @Before("logAllStudentServiceMethods()")
     public void logBeforeAdvice(JoinPoint joinPoint) {
