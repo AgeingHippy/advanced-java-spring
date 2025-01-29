@@ -31,18 +31,21 @@ public class PermissionsDemo implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        User user;
         User user1;
         User user2;
         User user3;
         User user4;
 
         if (userRepository.findAll().isEmpty()) {
+            user = new User("x", passwordEncoder.encode("x"));
             user1 = new User("user1@email.com", passwordEncoder.encode("12345678"));
             user2 = new User("user2@email.com", passwordEncoder.encode("12345678"));
             user3 = new User("user3@email.com", passwordEncoder.encode("12345678"));
             user4 = new User("user4@email.com", passwordEncoder.encode("12345678"));
-            userRepository.saveAll(Arrays.asList(user1, user2, user3, user4));
+            userRepository.saveAll(Arrays.asList(user,user1, user2, user3, user4));
         } else {
+            user = userRepository.findByEmail("x");
             user1 = userRepository.findByEmail("user1@email.com");
             user2 = userRepository.findByEmail("user2@email.com");
             user3 = userRepository.findByEmail("user3@email.com");
@@ -50,6 +53,9 @@ public class PermissionsDemo implements CommandLineRunner {
         }
 
         if (authRepository.findAll().isEmpty()) {
+            authRepository.save(new MyGrantedAuthority(user.getClass().getTypeName(), user.getId(), "READ"));
+            authRepository.save(new MyGrantedAuthority(user.getClass().getTypeName(), user.getId(), "DELETE"));
+
             authRepository.save(new MyGrantedAuthority(user1.getClass().getTypeName(), user1.getId(), "READ"));
             authRepository.save(new MyGrantedAuthority(user1.getClass().getTypeName(), user1.getId(), "DELETE"));
 

@@ -11,5 +11,23 @@
         <p><a th:href="@{/user/delete/2}">/user/delete/2</a></p>
     </h3>
 </div>
+
+<div align="center">
+    <form action="http://localhost:8080/num" method="post">
+        <label for="numbers">Select Numbers:</label>
+        <select name="numbers" id="numbers" multiple>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+
 </body>
 </html>

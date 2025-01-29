@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -59,5 +60,11 @@ public class UserController {
         return users;
     }
 
+    @PostMapping("/num")
+    @ResponseBody
+    @PreFilter("filterObject %2 == 1")
+    public List<Integer> getNum(@RequestParam List<Integer> numbers) {
+        return numbers;
+    }
 
 }
